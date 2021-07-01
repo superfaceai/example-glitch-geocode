@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hello Superface!</title>
+    <link rel="stylesheet" href="/style.css" />   
+  </head>
+  <body>
+    <h1>
+      Hello Superface!
+    </h1>
+    <h2>
+      Geocoding
+    </h2>
+    
+    <section id="get-coordinates">
+      
+      <p>
+        Get the coordinates from address.
+      </p>
+  
+      <form action="/" method="post" id="main-form">
+        <div class="form-group" id="options">
+          <input type="radio" id="query" name="type" value="query" onchange="displayForm(this.value)">
+          <label for="query">All in one query</label>
+
+          <input type="radio" id="structured" name="type" value="structured" onchange="displayForm(this.value)">
+          <label for="structured">Structured</label>
+        </div>
+        
+        <fieldset class="form-group" id="query-form">
+          <label for="query">Query</label><br>
+          <input type="text" id="query" name="query"><br>
+        </fieldset>
+        
+        <fieldset class="form-group" id="structured-form">
+          <label for="streetAddress">Street Address</label><br>
+          <input type="text" id="streetAddress" name="streetAddress"><br>
+
+          <label for="addressLocality">Locality</label><br>
+          <input type="text" id="addressLocality" name="addressLocality" value="Prague"><br>
+
+          <label for="addressDistrict">District</label><br>
+          <input type="text" id="addressDistrict" name="addressDistrict"><br>
+
+          <label for="addressRegion">Region</label><br>
+          <input type="text" id="addressRegion" name="addressRegion"><br>
+
+          <label for="addressCountry">Country</label><br>
+          <input type="text" id="addressCountry" name="addressCountry" value="CZ"><br>
+
+          <label for="postalCode">Postal Code</label><br>
+          <input type="text" id="postalCode" name="postalCode"><br>
+        
+        </fieldset>
+        
+        
+        <fieldset class="form-group">
+          <label for="service">Service</label><br>
+          <select name = "service" id="service">
+            <option value = "nominatim" selected>nominatim</option>
+            <option value = "google-apis">google-apis</option>
+            <option value = "opencage">opencage</option>
+            <option value = "azure-maps">azure-maps</option>
+          </select><br>
+        </fieldset>
+        
+        <input type="submit" value="Submit" id="main-submit">
+        
+        <section id="info">
+          {{#if errorMessage}}
+            <div class="response response-error">
+              <h4>Form Error:</h4>
+              <p class="response-message" >
+                {{ errorMessage }}
+              </p>
+            </div>
+          {{/if}}
+
+          {{#if message}}
+            {{#if log}}
+              {{#if success}}
+                <h3>
+                  {{#if success}} 
+                    &#127881;    
+                  {{else}}
+                    &#128680;
+                  {{/if}}
+                  {{ message }}
+                </h3>
+              {{/if}}
+            {{/if}}
+          {{/if}}
+        </section>
+      </form>
+    </section>
+
+    <h2>
+      More Examples
+    </h2>
+    <p>
+      Check out <a href="https://glitch.com/edit/#!/sf-example?path=superface.js"><code>superface.js</code></a> and <a href="https://glitch.com/edit/#!/sf-example?path=README.md">README</a>.
+    </p>
+    
+    <script>
+      const mainForm = document.getElementById("main-form")
+      const queryForm = document.getElementById("query-form");
+      const structuredForm = document.getElementById("structured-form");
+      const mainSubmitButton = document.getElementById("main-submit")
+
+      function displayForm(type) {
+        const selectedForm = document.getElementById(type + "-form");
+        
+        selectedForm.style.display = "block";
+        selectedForm.removeAttribute("disabled");
+
+        if (type === "query"){
+          structuredForm.setAttribute("disabled", "disabled");
+        } else if (type === "structured"){
+          queryForm.setAttribute("disabled", "disabled");
+        }
+      }
+      
+      function throttle(callback, limit) {
+        let waiting = false;
+
+        return function(...args) {
+          if (!waiting) {
+            callback.apply(this, args);
+            waiting = true;
+
+            setTimeout(() => {
+              waiting = false; 
+            }, limit);
+          }
+        };
+      }
+      
+      mainForm.addEventListener(
+        'submit', 
+        throttle(
+          event => {
+            mainSubmitButton.setAttribute("disabled", "disabled");
+          }, 10000)
+      )
+    </script>
+  </body>
+</html>
