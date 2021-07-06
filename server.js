@@ -3,11 +3,12 @@ const crypto = require("crypto");
 const dotenv = require("dotenv");
 const path = require("path");
 const { promisify } = require("util");
-const exec = promisify(childProcess.exec);
 
 const { getCoordinates } = require("./superface");
 
-const main = async () => {
+const exec = promisify(childProcess.exec);
+
+async function main() {
   // load enviroment variables
   dotenv.config();
 
@@ -155,7 +156,7 @@ const main = async () => {
         server.log.error(stderr);
       }
 
-      server.log.info("> [GIT] Updated with origin/master");
+      server.log.info("> [GIT] Updated with origin/main");
     }
 
     reply.status(200);
@@ -174,6 +175,4 @@ const main = async () => {
   });
 };
 
-(async function() {
-  await main();
-})();
+main()
