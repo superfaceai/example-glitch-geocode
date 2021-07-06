@@ -23,7 +23,7 @@ async function getCoordinates(input, service) {
     log;
   if (result.isErr()) {
     message = "Some of the fields contain invalid address information";
-    log = result.error;
+    log = { kind: result.error.kind, message: result.error.message };
   } else {
     message = `Lat: ${result.value.latitude}, Lon: ${result.value.longitude}`;
     log = result.value;
