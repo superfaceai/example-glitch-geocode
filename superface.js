@@ -29,7 +29,7 @@ async function getCoordinates(input, service) {
   } else {
     const { latitude, longitude } = result.value;
     message = `Lat: ${latitude}, Lon: ${longitude}`;
-    log = JSON.stringify(result.value, null, 2);
+    log = result.value;
     success = true;
 
     console.log(result.value);
