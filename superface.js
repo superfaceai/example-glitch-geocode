@@ -24,16 +24,13 @@ async function getCoordinates(input, service) {
   if (result.isErr()) {
     message = "Some of the fields contain invalid address information";
     log = result.error;
-
-    console.log(message);
   } else {
-    const { latitude, longitude } = result.value;
-    message = `Lat: ${latitude}, Lon: ${longitude}`;
+    message = `Lat: ${result.value.latitude}, Lon: ${result.value.longitude}`;
     log = result.value;
     success = true;
-
-    console.log(result.value);
   }
+
+  console.log(message);
 
   return {
     success,
