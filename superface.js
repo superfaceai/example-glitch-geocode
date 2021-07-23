@@ -16,7 +16,7 @@ const client = getClient();
 async function getCoordinates(input, service) {
   const profile = await client.getProfile("address/geocoding");
   const provider = await client.getProvider(service);
-  const result = await profile.useCases.Geocode.perform(input, {provider});
+  const result = await profile.useCases.Geocode.perform(input, { provider });
 
   let success = false,
     message,
