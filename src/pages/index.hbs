@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <script src="index.js"></script>
@@ -13,130 +14,94 @@
     <h3>
       Get the coordinates from address.
     </h3>
+    
+    <section id="get-coordinates">
+      <form action="/" method="post" id="main-form">
+        <div class="form-group" id="options">
+          <input type="radio" id="structured" name="type" value="structured" onchange="displayForm(this.value)">
+          <label for="structured">Address fields</label>
 
-    <form action="/" method="post" id="main-form">
-      <div class="form-group" id="options">
-        <input
-          type="radio"
-          id="structured"
-          name="type"
-          value="structured"
-          onchange="displayForm(this.value)"
-        />
-        <label for="structured">Address fields</label>
+          <input type="radio" id="query" name="type" value="query" onchange="displayForm(this.value)" checked>
+          <label for="query">Freeform field</label>
+        </div>
+        
+        <fieldset class="form-group" id="query-form">
+          <h2>Enter an address</h2>
+          <input type="text" id="query" name="query" placeholder="Freeform Address"><br>
+          <p class="example-label">Example: 201 W Cliff Dr, Santa Cruz, CA 95060, USA</p>
+        </fieldset>
+        
+        <fieldset class="form-group" id="structured-form">
+          <h2>Enter an address</h2>
+          <input type="text" id="streetAddress" name="streetAddress" placeholder="Street Address"><br>
+          <input type="text" id="addressLocality" name="addressLocality" placeholder="Locality" value="Prague"><br>
+          <input type="text" id="addressDistrict" name="addressDistrict" placeholder="District"><br>
+          <input type="text" id="addressRegion" name="addressRegion" placeholder="Region"><br>
+          <input type="text" id="addressCountry" name="addressCountry" placeholder="Country" value="CZ"><br>
+          <input type="text" id="postalCode" name="postalCode" placeholder="Postal Code"><br>
+        </fieldset>
+        
+        <fieldset class="form-group" id="service-select">
+          <h2>Choose the Provider</h2>
+          <select name = "service" id="service">
+            <option value = "nominatim" selected>nominatim</option>
+            <option value = "google-apis">google-apis</option>
+            <option value = "opencage">opencage</option>
+            <option value = "azure-maps">azure-maps</option>
+            <option value = "tomtom">tomtom</option>
+            <option value = "mapbox">mapbox</option>
+            <option value = "here">here</option>
+            <option value = "bing">bing</option>
+            <option value = "yandex">yandex</option>
+            <option value = "yahoo">yahoo</option>
+            <option value = "mapquest">mapquest</option>
+            <option value = "yelp">yelp</option>
+          </select><br>
+        </fieldset>
+        
+        <input type="submit" value="Execute" id="main-submit">
+        
+        <section id="info">
+          {{#if errorMessage}}
+            <div class="response response-error">
+              <h4>Form Error:</h4>
+              <p class="response-message" >
+                {{ errorMessage }}
+              </p>
+            </div>
+          {{/if}}
 
-        <input
-          type="radio"
-          id="query"
-          name="type"
-          value="query"
-          onchange="displayForm(this.value)"
-          checked
-        />
-        <label for="query">Freeform field</label>
-      </div>
-
-      <fieldset class="form-group" id="query-form">
-        <h2>Enter an address</h2>
-        <input
-          type="text"
-          id="query"
-          name="query"
-          placeholder="Freeform Address"
-        /><br />
-        <p class="example-label">Example: 201 W Cliff Dr, Santa Cruz, CA 95060,
-          USA</p>
-      </fieldset>
-
-      <fieldset class="form-group" id="structured-form">
-        <h2>Enter an address</h2>
-        <input
-          type="text"
-          id="streetAddress"
-          name="streetAddress"
-          placeholder="Street Address"
-        /><br />
-        <input
-          type="text"
-          id="addressLocality"
-          name="addressLocality"
-          placeholder="Locality"
-          value="Prague"
-        /><br />
-        <input
-          type="text"
-          id="addressDistrict"
-          name="addressDistrict"
-          placeholder="District"
-        /><br />
-        <input
-          type="text"
-          id="addressRegion"
-          name="addressRegion"
-          placeholder="Region"
-        /><br />
-        <input
-          type="text"
-          id="addressCountry"
-          name="addressCountry"
-          placeholder="Country"
-          value="CZ"
-        /><br />
-        <input
-          type="text"
-          id="postalCode"
-          name="postalCode"
-          placeholder="Postal Code"
-        /><br />
-      </fieldset>
-
-      <fieldset class="form-group" id="service-select">
-        <h2>Choose the Provider</h2>
-        <select name="service" id="service">
-          <option value="nominatim" selected>nominatim</option>
-          <option value="google-apis">google-apis</option>
-          <option value="opencage">opencage</option>
-          <option value="azure-maps">azure-maps</option>
-          <option value="tomtom">tomtom</option>
-          <option value="mapbox">mapbox</option>
-          <option value="here">here</option>
-          <option value="bing">bing</option>
-          <option value="yandex">yandex</option>
-          <option value="yahoo">yahoo</option>
-          <option value="mapquest">mapquest</option>
-          <option value="yelp">yelp</option>
-        </select><br />
-      </fieldset>
-
-      <input type="submit" value="Execute" id="main-submit" />
-
-      <section id="info">
-        {{#if errorMessage}}
-          <div class="response response-error">
-            <h4>Form Error:</h4>
-            <p class="response-message">
-              {{errorMessage}}
-            </p>
-          </div>
-        {{/if}}
-
-        {{#if message}}
-          <h3>
+          {{#if message}}
+            <h3>
+              {{#if success}} 
             {{#if success}}
+              {{#if success}} 
+                &#127881;    
               &#127881;
-            {{else}}
-              &#128680;
-            {{/if}}
-            {{message}}
-          </h3>
-        {{/if}}
-
-        {{#if resultLog}}
-          <div class="log">
-            <pre>{{resultLog}}</pre>
-          </div>
-        {{/if}}
-      </section>
-    </form>
+                &#127881;    
+              {{else}}
+                &#128680;
+              {{/if}}
+              {{ message }}
+            </h3>
+          {{/if}}
+          
+          {{#if resultLog}}
+            <div class="log">
+                <pre>{{ resultLog }}</pre>
+            </div>
+          {{/if}}
+        </section>
+      </form>
+    </section>
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src=“https://www.googletagmanager.com/gtag/js?id=G-XPC67DJCLR”></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag(‘js’, new Date());
+      gtag(‘config’, ‘G-XPC67DJCLR’);
+    </script>
   </body>
 </html>

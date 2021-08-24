@@ -92,12 +92,12 @@ declare const profile: {
      * Geocode address
      * Geocode postal address into geographical coordinates (latitude and longitude)
      **/
-    Geocode: any;
+    Geocode: [AddressGeocodingGeocodeInput, AddressGeocodingGeocodeResult];
     /**
      * Reverse geocode
      * Decodes geographical coordinates (latitude and longitude) into postal addresses
      **/
-    ReverseGeocode: any;
+    ReverseGeocode: [AddressGeocodingReverseGeocodeInput, AddressGeocodingReverseGeocodeResult];
 };
 export declare type AddressGeocodingProfile = TypedProfile<typeof profile>;
 export declare const addressGeocoding: {
@@ -106,12 +106,12 @@ export declare const addressGeocoding: {
          * Geocode address
          * Geocode postal address into geographical coordinates (latitude and longitude)
          **/
-        Geocode: any;
+        Geocode: [AddressGeocodingGeocodeInput, AddressGeocodingGeocodeResult];
         /**
          * Reverse geocode
          * Decodes geographical coordinates (latitude and longitude) into postal addresses
          **/
-        ReverseGeocode: any;
+        ReverseGeocode: [AddressGeocodingReverseGeocodeInput, AddressGeocodingReverseGeocodeResult];
     };
 };
 export {};
